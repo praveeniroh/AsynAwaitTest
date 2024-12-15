@@ -26,7 +26,7 @@ class ItemListPresenter: ItemListPresenterProtocol {
     }
 
     func viewDidLoad() {
-        Task {
+        Task {@MainActor in
             do {
                 view?.showLoading()
                 let items = try await interactor.fetchListData()
@@ -36,10 +36,21 @@ class ItemListPresenter: ItemListPresenterProtocol {
             }
             view?.hideLoading()
         }
+        //MARK: Using detached task
+//        Task{@MainActor in
+//            view?.showLoading()
+//            let detachedTask = Task.detached {
+//                return try await self.interactor.fetchListData()
+//            }
+//
+//            view?.showItems(try await detachedTask.value)
+//            view?.hideLoading()
+//        }
+
     }
 
     func pullToRefreshTriggerred() {
-        Task {
+        Task {@MainActor in
             do {
                 let items = try await interactor.fetchListData()
                 view?.showItems(items)

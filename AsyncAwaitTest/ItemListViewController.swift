@@ -35,6 +35,30 @@ class ItemListViewController: UIViewController, ItemListViewProtocol {
         self.presenter = presenter
     }
 
+    // MARK: - ItemListViewProtocol
+
+    func showLoading() {
+        activityIndicator.startAnimating()
+        activityIndicator.isHidden = false
+    }
+
+    func hideLoading() {
+        activityIndicator.stopAnimating()
+        activityIndicator.isHidden = true
+    }
+
+    func showItems(_ items: [ListUIData]) {
+        data = items
+        tableView.reloadData()
+    }
+
+    func showError(_ message: String) {
+        print("Error: \(message)")
+        let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+
     private func setupTableView() {
         tableView = UITableView(frame: view.bounds, style: .plain)
         tableView.dataSource = self
@@ -62,30 +86,6 @@ class ItemListViewController: UIViewController, ItemListViewProtocol {
 
     func endPullToRefreshing() {
         refreshControl.endRefreshing()
-    }
-
-    // MARK: - ItemListViewProtocol
-
-    func showLoading() {
-        activityIndicator.startAnimating()
-        activityIndicator.isHidden = false
-    }
-
-    func hideLoading() {
-        activityIndicator.stopAnimating()
-        activityIndicator.isHidden = true
-    }
-
-    func showItems(_ items: [ListUIData]) {
-        data = items
-        tableView.reloadData()
-    }
-
-    func showError(_ message: String) {
-        print("Error: \(message)")
-        let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        present(alert, animated: true, completion: nil)
     }
 }
 

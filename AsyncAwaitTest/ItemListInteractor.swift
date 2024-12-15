@@ -15,6 +15,7 @@ protocol ItemListInteractorProtocol {
 class ItemListInteractor: ItemListInteractorProtocol {
     func fetchListData() async throws -> [ListUIData] {
         // Fetch data from API
+        print("--> Thread: \(Thread.isMainThread)")
         let url = URL(string: "https://jsonplaceholder.typicode.com/todos")!
         let (data, _) = try await URLSession.shared.data(from: url)
         
